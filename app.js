@@ -1,36 +1,49 @@
-const express = require('express');
-const mustacheExpress = require('mustache-express');
-const bodyParser = require('body-parser');
-const readline = require('readline');
+(function(){
+  'use strict';
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+  const express = require('express');
+  const mustacheExpress = require('mustache-express');
+  const bodyParser = require('body-parser');
+  const app = express();
 
+  let todoList = ['wash car', 'vacuum'];
+  let completedTodos = ['mopped'];
 
-console.log("Hello Annie");
+  app.engine('mustache', mustacheExpress());
+  app.set('view engine', 'mustache');
+  app.set('views', './views');
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: false}));
 
-const app = express();
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', './views');
+  app.get('/', function(req, res){
+    let idx = 0;
+    let context = {
+      todoList: todoList,
+      completedTodos: completedTodos,
+      id: function() {
+        return idx++;
+      }
+     };
+    res.render('index', context);
+  });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+  app.post('/', function(req, res){
+    var todo = req.body.todo;
+    todoList.push(todo);
+    res.redirect('/');
+  });
 
+// /todo/{{id}}/complete/
+  app.post('/todo/:id/complete/', function(req, res){
+    var index = req.params.id;
 
+    // remove that index from the todo list
 
+    // add that index to the completed list
 
-app.get('/', function(re, res){
-  res.render('index', {});
-});
+    res.redirect('/');
+  });
 
-app.post('/', function(req, res){
-  console.log(req.body);
-  console.log("hey i was posted to");
-  res.render('index', req.body);
-});
-
-app.listen(3000);
+  app.listen(3000);
+})();

@@ -8,31 +8,31 @@
   <body>
 
 
-    <form class="" action="/list" method="post">
+    <form class="" action="/" method="post">
+      <input type="text" name="todo" value="">
+      <button type="submit" name="button">Add todo</button>
+      <br>
+      <br>
+      <label for="todo_list">List</label>
+    </form>
 
-    <input type="text" name="add_todo" value="">
-    <button type="submit" name="button">Add todo</button>
-    <br>
-    <br>
-    <label for="todo_list">List</label>
-    <br>
-      <input type="radio" name="wash_dishes" value="{{wash_dishes}}">Wash Dishes
-      <br>
-      <input type="radio" name="vacuum" value="{{vacuum}}">Vacuum
-      <br>
-      <input type="radio" name="fold_clothes" value="{{fold_clothes}}">Fold Clothes
-      <br>
-      <br>
-    <label for="completed_tasks">Completed Tasks</label>
+    {{!the action is going back into app.js to look for an id in the context variable }}
+    {{#todoList}}
+      <form class="" action="/todo/{{id}}/complete/" method="post">
+        <ul>
+          <li>
+            <span>{{.}}</span>
+            <input type="submit" name="" value="Done">
+          </li>
+        </ul>
+      </form>
+    {{/todoList}}
+
     <ul>
-      <li><del>Sweep Floors</del></li>
-      <li><del>Grocery Shopping</del></li>
-      <li><del>Mop Kitchen</del></li>
+      {{#completedTodos}}
+        <li>{{.}}</li>
+      {{/completedTodos}}
     </ul>
-
-
-
-  </form>
 
   </body>
 </html>
