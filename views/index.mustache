@@ -9,7 +9,7 @@
 
 
     <form class="" action="/" method="post">
-      <input type="text" name="todo" value="">
+      <input type="text" name="todoInput" value="">
       <button type="submit" name="button">Add todo</button>
       <br>
       <br>
@@ -17,22 +17,30 @@
     </form>
 
     {{!the action is going back into app.js to look for an id in the context variable }}
-    {{#todoList}}
-      <form class="" action="/todo/{{id}}/complete/" method="post">
+    {{#model}}
+    {{^completed}}
+      <form class="" action="/complete/{{id}}" method="post">
         <ul>
           <li>
-            <span>{{.}}</span>
+            <input type="hidden" name="todo_id" value="{{id}}">
+            <span>{{name}}</span>
             <input type="submit" name="" value="Done">
           </li>
         </ul>
       </form>
-    {{/todoList}}
+      {{/completed}}
+    {{/model}}
 
-    <ul>
-      {{#completedTodos}}
-        <li>{{.}}</li>
-      {{/completedTodos}}
-    </ul>
+    <h2>Completed Todo</h2>
+      {{#model}}
+      {{#completed}}
+        <ul>
+          <li>
+            <span>{{name}}</span>
+          </li>
+      </ul>
+      {{/completed}}
+      {{/model}}
 
   </body>
 </html>
