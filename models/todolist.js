@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var TodoList = sequelize.define('TodoList', {
+    // id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     details: DataTypes.STRING,
     submit_date: DataTypes.DATEONLY,

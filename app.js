@@ -22,35 +22,27 @@
     models.TodoList.findAll().then(function(todos){
       res.render('index', {model: todos});
     });
-
-    app.post('/', function(req, res){
-      var name = req.body.todoInput;
-
-      models.TodoList.create({
-        name: name
-        , completed: false
-      });
-      res.redirect('/');
-    });
-
-    app.post('/completed/:id', function(req, res){
-      var id = req.params.id;
-      models.TodoList.update(
-        {completed: true}
-        , {where: {id: id}}
-      ).then(function () {
-        res.redirect('/');
-      });
-
-
-
-    });
-
-
-
-
   });
 
+  app.post('/', function(req, res){
+    var name = req.body.todoInput;
+
+    models.TodoList.create({
+      name: name
+      , completed: false
+    });
+    res.redirect('/');
+  });
+
+  app.post('/complete/:id', function(req, res){
+    var id = req.params.id;
+    models.TodoList.update(
+      {completed: true}
+      , {where: {id: id}}
+    ).then(function () {
+      res.redirect('/');
+    });
+  });
   // let todoList = 0;
   // let completedTodos = 0;
  //
